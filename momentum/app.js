@@ -1,23 +1,30 @@
-const calculator = {
-	plus: function (a, b) {
-		console.log(a + b);
-	},
-	minus: function (a, b) {
-		console.log(a - b);
-	},
-	times: function (a, b) {
-		console.log(a * b);
-	},
-	divide: function (a, b) {
-		console.log(a / b);
-	},
-	power: function (a) {
-		console.log(a * a);
-	},
-};
+const loginForm = document.querySelector("#login-form");
+const loginInput = document.querySelector("#login-form input");
+const greeting = document.querySelector("#greeting");
 
-calculator.plus(5, 8);
-calculator.minus(5, 8);
-calculator.times(5, 8);
-calculator.divide(5, 8);
-calculator.power(5, 8);
+const HIDDEN_CLASSNAME = "hidden";
+const USERNAME_KEY = "username";
+
+function onLoginSubmit(event) {
+	event.preventDefault();
+	loginForm.classList.add(HIDDEN_CLASSNAME);
+	const username = loginInput.value;
+	localStorage.setItem(USERNAME_KEY, username);
+	paintGreetings(username);
+}
+
+function paintGreetings(username) {
+	greeting.innerText = `Hello, ${username}`;
+	greeting.classList.remove(HIDDEN_CLASSNAME);
+}
+
+const savedUsername = localStorage.getItem(USERNAME_KEY);
+
+if (savedUsername === null) {
+	// Show The Form
+	loginForm.classList.remove(HIDDEN_CLASSNAME);
+	loginForm.addEventListener("submit", onLoginSubmit);
+} else {
+	// Show The Greeting
+	paintGreetings(savedUsername);
+}
